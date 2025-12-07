@@ -33,6 +33,8 @@ export default function CreatePost() {
       return;
     }
 
+    console.log("Dados do usuário ao criar post:", user);
+
     try {
       setLoading(true);
       await createPost({
@@ -43,7 +45,7 @@ export default function CreatePost() {
         authorId: user.id,
       });
       Alert.alert("Sucesso", "Post criado com sucesso!", [
-        { text: "OK", onPress: () => router.back() },
+        { text: "OK", onPress: () => router.replace("/admin" as any) },
       ]);
     } catch (error) {
       Alert.alert("Erro", "Não foi possível criar o post. Tente novamente.");

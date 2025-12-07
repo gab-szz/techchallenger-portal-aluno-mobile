@@ -5,7 +5,8 @@ export interface Post {
   author: string;
   authorId: string;
   createdAt: string;
-  description: string;
+  description: string; // description ou subject da API
+  subject?: string; // Campo opcional vindo da API
 }
 
 export interface Professor {
@@ -13,6 +14,11 @@ export interface Professor {
   name: string;
   email: string;
   subject: string;
+  cpf?: string;
+  matricula?: string;
+  telefone?: string;
+  nascimento?: string; // Data de nascimento
+  senha?: string; // Senha apenas ao criar
 }
 
 export interface Student {
@@ -20,11 +26,17 @@ export interface Student {
   name: string;
   email: string;
   course: string;
+  turma?: string; // Turma do aluno
+  cpf?: string;
+  matricula?: string;
+  telefone?: string;
+  nascimento?: string; // Data de nascimento
+  senha?: string; // Senha apenas ao criar
 }
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  role: "professor" | "student";
+  role: "professor" | "student" | "teacher"; // API pode retornar "teacher"
 }

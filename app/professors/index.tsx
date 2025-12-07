@@ -9,12 +9,17 @@ import {
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useData } from "../../context/DataContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProfessorsIndex() {
   const router = useRouter();
-  const { professors, deleteProfessor } = useData();
+  const { professors, deleteProfessor, refreshProfessors } = useData();
   const [deleting, setDeleting] = useState<string | null>(null);
+
+  // Carrega professores ao abrir a tela (requer autenticação)
+  useEffect(() => {
+    refreshProfessors();
+  }, []);
 
   const handleDelete = (id: string, name: string) => {
     Alert.alert(
@@ -83,7 +88,9 @@ export default function ProfessorsIndex() {
       <FlatList
         data={professors}
         renderItem={renderProfessor}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) =>
+          item?.id ? String(item.id) : `prof-${index}`
+        }
         contentContainerStyle={styles.listContainer}
       />
     </View>
@@ -112,7 +119,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     padding: 15,
-    gap: 15,
   },
   card: {
     backgroundColor: "#FFF",
@@ -123,6 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 15,
   },
   info: {
     flex: 1,
@@ -144,10 +151,11 @@ const styles = StyleSheet.create({
   },
   actions: {
     flexDirection: "row",
-    gap: 10,
+    marginLeft: 10,
   },
   editButton: {
     padding: 8,
+    marginRight: 10,
   },
   deleteButton: {
     padding: 8,

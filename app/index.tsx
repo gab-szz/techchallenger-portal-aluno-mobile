@@ -15,24 +15,32 @@ import { useData } from "../context/DataContext";
 export default function Index() {
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
-  const { posts } = useData();
+  const { posts, loadingPosts } = useData();
   const [searchTerm, setSearchTerm] = useState("");
+
+  console.log("Posts no Index:", posts.length, posts);
 
   const filteredPosts = posts.filter(
     (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.description.toLowerCase().includes(searchTerm.toLowerCase())
+      post?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post?.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log("Posts filtrados:", filteredPosts.length);
 
   const renderPost = ({ item }: { item: (typeof posts)[0] }) => (
     <Pressable
       style={styles.postCard}
       onPress={() => router.push(`/posts/${item.id}` as any)}
     >
-      <Text style={styles.postTitle}>{item.title}</Text>
-      <Text style={styles.postAuthor}>Por: {item.author}</Text>
-      <Text style={styles.postDescription}>{item.description}</Text>
-      <Text style={styles.postDate}>{item.createdAt}</Text>
+      <Text style={styles.postTitle}>{item?.title || "Sem título"}</Text>
+      <Text style={styles.postAuthor}>
+        Por: {item?.author || "Desconhecido"}
+      </Text>
+      <Text style={styles.postDescription}>
+        {item?.description || "Sem descrição"}
+      </Text>
+      <Text style={styles.postDate}>{item?.createdAt || ""}</Text>
     </Pressable>
   );
 
@@ -58,10 +66,19 @@ export default function Index() {
       <FlatList
         data={filteredPosts}
         renderItem={renderPost}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) =>
+          item?.id ? String(item.id) : `post-${index}`
+        }
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Nenhum post encontrado</Text>
+          loadingPosts ? (
+            <Text style={styles.emptyText}>Carregando posts...</Text>
+          ) : (
+            <Text style={styles.emptyText}>
+              Nenhum post encontrado{"\n"}
+              Total de posts: {posts.length}
+            </Text>
+          )
         }
       />
     </View>
@@ -100,7 +117,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     padding: 15,
-    gap: 15,
   },
   postCard: {
     backgroundColor: "#FFF",
@@ -108,6 +124,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#E0E0E0",
+    marginBottom: 15,
   },
   postTitle: {
     fontSize: 18,

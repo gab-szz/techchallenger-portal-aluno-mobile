@@ -18,19 +18,45 @@ export default function CreateStudent() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [course, setCourse] = useState("");
+  const [turma, setTurma] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [matricula, setMatricula] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [nascimento, setNascimento] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (!name || !email || !course) {
+    if (
+      !name ||
+      !email ||
+      !course ||
+      !turma ||
+      !cpf ||
+      !matricula ||
+      !telefone ||
+      !nascimento ||
+      !password
+    ) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
 
     try {
       setLoading(true);
-      await createStudent({ name, email, course });
+      await createStudent({
+        name,
+        email,
+        course,
+        turma,
+        cpf,
+        matricula,
+        telefone,
+        nascimento,
+        senha: password,
+      });
       Alert.alert("Sucesso", "Aluno cadastrado com sucesso!", [
-        { text: "OK", onPress: () => router.back() },
+        { text: "OK", onPress: () => router.replace("/students/index" as any) },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível cadastrar o aluno.");
@@ -66,6 +92,57 @@ export default function CreateStudent() {
           value={course}
           onChangeText={setCourse}
           placeholder="Curso do aluno"
+        />
+
+        <Text style={styles.label}>Turma</Text>
+        <TextInput
+          style={styles.input}
+          value={turma}
+          onChangeText={setTurma}
+          placeholder="Turma do aluno"
+        />
+
+        <Text style={styles.label}>CPF</Text>
+        <TextInput
+          style={styles.input}
+          value={cpf}
+          onChangeText={setCpf}
+          placeholder="000.000.000-00"
+          keyboardType="numeric"
+        />
+
+        <Text style={styles.label}>Matrícula</Text>
+        <TextInput
+          style={styles.input}
+          value={matricula}
+          onChangeText={setMatricula}
+          placeholder="Número de matrícula"
+        />
+
+        <Text style={styles.label}>Telefone</Text>
+        <TextInput
+          style={styles.input}
+          value={telefone}
+          onChangeText={setTelefone}
+          placeholder="(00) 00000-0000"
+          keyboardType="phone-pad"
+        />
+
+        <Text style={styles.label}>Data de Nascimento</Text>
+        <TextInput
+          style={styles.input}
+          value={nascimento}
+          onChangeText={setNascimento}
+          placeholder="YYYY-MM-DD"
+        />
+
+        <Text style={styles.label}>Senha</Text>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Senha de acesso"
+          secureTextEntry
         />
 
         <View style={styles.buttonContainer}>

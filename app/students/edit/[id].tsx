@@ -34,7 +34,7 @@ export default function EditStudent() {
       setLoading(true);
       await updateStudent(String(id), { name, email, course });
       Alert.alert("Sucesso", "Aluno atualizado com sucesso!", [
-        { text: "OK", onPress: () => router.back() },
+        { text: "OK", onPress: () => router.replace("/students/index" as any) },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível atualizar o aluno.");

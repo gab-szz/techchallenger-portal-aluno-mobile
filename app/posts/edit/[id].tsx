@@ -34,7 +34,7 @@ export default function EditPost() {
       setLoading(true);
       await updatePost(String(id), { title, description, content });
       Alert.alert("Sucesso", "Post atualizado com sucesso!", [
-        { text: "OK", onPress: () => router.back() },
+        { text: "OK", onPress: () => router.replace("/admin" as any) },
       ]);
     } catch {
       Alert.alert(

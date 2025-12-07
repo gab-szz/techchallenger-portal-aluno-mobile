@@ -86,7 +86,7 @@ export default function Admin() {
       <View style={styles.section}>
         <Pressable
           style={styles.navButton}
-          onPress={() => router.push("/professors/index" as any)}
+          onPress={() => router.replace("/professors/index" as any)}
         >
           <Ionicons name="school-outline" size={24} color="#007AFF" />
           <Text style={styles.navButtonText}>Gerenciar Professores</Text>
@@ -95,7 +95,7 @@ export default function Admin() {
 
         <Pressable
           style={styles.navButton}
-          onPress={() => router.push("/students/index" as any)}
+          onPress={() => router.replace("/students/index" as any)}
         >
           <Ionicons name="people-outline" size={24} color="#007AFF" />
           <Text style={styles.navButtonText}>Gerenciar Alunos</Text>

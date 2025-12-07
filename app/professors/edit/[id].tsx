@@ -34,7 +34,10 @@ export default function EditProfessor() {
       setLoading(true);
       await updateProfessor(String(id), { name, email, subject });
       Alert.alert("Sucesso", "Professor atualizado com sucesso!", [
-        { text: "OK", onPress: () => router.back() },
+        {
+          text: "OK",
+          onPress: () => router.replace("/professors/index" as any),
+        },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível atualizar o professor.");

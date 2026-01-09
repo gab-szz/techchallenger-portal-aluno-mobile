@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -25,6 +25,19 @@ export default function CreateStudent() {
   const [nascimento, setNascimento] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Limpa os campos quando o componente é montado
+  useEffect(() => {
+    setName("");
+    setEmail("");
+    setCourse("");
+    setTurma("");
+    setCpf("");
+    setMatricula("");
+    setTelefone("");
+    setNascimento("");
+    setPassword("");
+  }, []);
 
   const handleSubmit = async () => {
     if (
@@ -55,8 +68,20 @@ export default function CreateStudent() {
         nascimento,
         senha: password,
       });
+
+      // Limpa os campos antes de navegar
+      setName("");
+      setEmail("");
+      setCourse("");
+      setTurma("");
+      setCpf("");
+      setMatricula("");
+      setTelefone("");
+      setNascimento("");
+      setPassword("");
+
       Alert.alert("Sucesso", "Aluno cadastrado com sucesso!", [
-        { text: "OK", onPress: () => router.replace("/students" as any) },
+        { text: "OK", onPress: () => router.back() },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível cadastrar o aluno.");

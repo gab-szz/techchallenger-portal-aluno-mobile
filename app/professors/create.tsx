@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -24,6 +24,18 @@ export default function CreateProfessor() {
   const [nascimento, setNascimento] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Limpa os campos quando o componente é montado
+  useEffect(() => {
+    setName("");
+    setEmail("");
+    setSubject("");
+    setCpf("");
+    setMatricula("");
+    setTelefone("");
+    setNascimento("");
+    setPassword("");
+  }, []);
 
   const handleSubmit = async () => {
     if (
@@ -52,11 +64,19 @@ export default function CreateProfessor() {
         nascimento,
         senha: password,
       });
+
+      // Limpa os campos antes de navegar
+      setName("");
+      setEmail("");
+      setSubject("");
+      setCpf("");
+      setMatricula("");
+      setTelefone("");
+      setNascimento("");
+      setPassword("");
+
       Alert.alert("Sucesso", "Professor cadastrado com sucesso!", [
-        {
-          text: "OK",
-          onPress: () => router.replace("/professors" as any),
-        },
+        { text: "OK", onPress: () => router.back() },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível cadastrar o professor.");

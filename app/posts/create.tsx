@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,13 @@ export default function CreatePost() {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Limpa os campos quando o componente é montado
+  useEffect(() => {
+    setTitle("");
+    setDescription("");
+    setContent("");
+  }, []);
+
   const handleSubmit = async () => {
     if (!title || !description || !content) {
       Alert.alert("Erro", "Preencha todos os campos");
@@ -42,10 +49,16 @@ export default function CreatePost() {
         author: user.name,
         authorId: user.id,
       });
+
+      // Limpa os campos antes de navegar
+      setTitle("");
+      setDescription("");
+      setContent("");
+
       Alert.alert("Sucesso", "Post criado com sucesso!", [
-        { text: "OK", onPress: () => router.replace("/admin" as any) },
+        { text: "OK", onPress: () => router.back() },
       ]);
-    } catch (error) {
+    } catch {
       Alert.alert("Erro", "Não foi possível criar o post. Tente novamente.");
     } finally {
       setLoading(false);

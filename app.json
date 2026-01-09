@@ -38,7 +38,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      ["./plugins/disable-screenshot-protection"]
     ],
     "experiments": {
       "typedRoutes": true,

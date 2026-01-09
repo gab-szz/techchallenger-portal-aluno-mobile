@@ -51,7 +51,10 @@ export default function Admin() {
       <View style={styles.actions}>
         <Pressable
           style={styles.editButton}
-          onPress={() => router.push(`/posts/edit/${item.id}` as any)}
+          onPress={() => {
+            console.log("Clicou para editar post:", item.id, item.title);
+            router.push(`/posts/edit/${item.id}` as any);
+          }}
         >
           <Ionicons name="pencil" size={20} color="#007AFF" />
           <Text style={styles.editButtonText}>Editar</Text>

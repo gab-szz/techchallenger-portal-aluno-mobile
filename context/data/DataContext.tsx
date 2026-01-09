@@ -46,7 +46,17 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     setLoadingPosts(false);
   };
 
-  const getPost = (id: string) => posts.find((p) => p.id === id);
+  const getPost = (id: string) => {
+    const normalizedId = String(id).trim();
+    console.log("Buscando post com ID:", normalizedId);
+    console.log(
+      "IDs disponíveis:",
+      posts.map((p) => ({ id: p.id, title: p.title }))
+    );
+    const found = posts.find((p) => String(p.id).trim() === normalizedId);
+    console.log("Post encontrado:", found?.title || "Não encontrado");
+    return found;
+  };
 
   const createPost = async (
     postData: Omit<Post, "id" | "createdAt">
@@ -97,7 +107,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     setLoadingProfessors(false);
   };
 
-  const getProfessor = (id: string) => professors.find((p) => p.id === id);
+  const getProfessor = (id: string) => {
+    const normalizedId = String(id).trim();
+    return professors.find((p) => String(p.id).trim() === normalizedId);
+  };
 
   const createProfessor = async (
     professorData: Omit<Professor, "id">
@@ -148,7 +161,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     setLoadingStudents(false);
   };
 
-  const getStudent = (id: string) => students.find((s) => s.id === id);
+  const getStudent = (id: string) => {
+    const normalizedId = String(id).trim();
+    return students.find((s) => String(s.id).trim() === normalizedId);
+  };
 
   const createStudent = async (
     studentData: Omit<Student, "id">

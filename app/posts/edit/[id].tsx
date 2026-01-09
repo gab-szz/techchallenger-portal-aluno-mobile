@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,12 +17,24 @@ export default function EditPost() {
   const { id } = useLocalSearchParams();
   const { getPost, updatePost } = useData();
 
+  console.log("ID do post para edição:", id, "Tipo:", typeof id);
+
   const post = getPost(String(id));
 
-  const [title, setTitle] = useState(post?.title || "");
-  const [description, setDescription] = useState(post?.description || "");
-  const [content, setContent] = useState(post?.content || "");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Atualizar os campos quando o post mudar
+  useEffect(() => {
+    if (post) {
+      console.log("Carregando dados do post:", post.title);
+      setTitle(post.title);
+      setDescription(post.description);
+      setContent(post.content);
+    }
+  }, [post?.id]);
 
   const handleSubmit = async () => {
     if (!title || !description || !content) {

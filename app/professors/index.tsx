@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useData } from "../../context/DataContext";
+import { useData } from "../../context/data";
 import { useState, useEffect } from "react";
 
 export default function ProfessorsIndex() {

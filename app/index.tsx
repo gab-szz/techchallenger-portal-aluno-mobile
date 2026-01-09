@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "../context/AuthContext";
-import { useData } from "../context/DataContext";
+import { useAuth } from "../context/auth";
+import { useData } from "../context/data";
 
 export default function Index() {
   const router = useRouter();
@@ -18,15 +18,11 @@ export default function Index() {
   const { posts, loadingPosts } = useData();
   const [searchTerm, setSearchTerm] = useState("");
 
-  console.log("Posts no Index:", posts.length, posts);
-
   const filteredPosts = posts.filter(
     (post) =>
       post?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post?.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  console.log("Posts filtrados:", filteredPosts.length);
 
   const renderPost = ({ item }: { item: (typeof posts)[0] }) => (
     <Pressable

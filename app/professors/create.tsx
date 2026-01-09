@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useData } from "../../context/DataContext";
+import { useData } from "../../context/data";
 
 export default function CreateProfessor() {
   const router = useRouter();
@@ -55,7 +55,7 @@ export default function CreateProfessor() {
       Alert.alert("Sucesso", "Professor cadastrado com sucesso!", [
         {
           text: "OK",
-          onPress: () => router.replace("/professors/index" as any),
+          onPress: () => router.replace("/professors" as any),
         },
       ]);
     } catch {

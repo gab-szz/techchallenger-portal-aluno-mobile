@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../../context/data";
 
 export default function EditStudent() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function EditStudent() {
       setLoading(true);
       await updateStudent(String(id), { name, email, course });
       Alert.alert("Sucesso", "Aluno atualizado com sucesso!", [
-        { text: "OK", onPress: () => router.replace("/students/index" as any) },
+        { text: "OK", onPress: () => router.replace("/students" as any) },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível atualizar o aluno.");

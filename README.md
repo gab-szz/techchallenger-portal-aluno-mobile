@@ -1,243 +1,313 @@
 # Portal do Aluno - Aplicativo Mobile
 
-Aplicativo mobile desenvolvido em React Native com Expo para o Tech Challenge Fase 04.
+> Aplicação mobile em React Native/Expo para gerenciamento educacional - Tech Challenge Fase 04
 
-## 🚀 Tecnologias
+## 📋 Visão Geral
 
-- React Native 0.81.5
-- Expo ~54.0.20
-- Expo Router ~6.0.13
-- TypeScript ~5.9.2
-- React Navigation (Drawer)
+Sistema mobile multiplataforma que permite gestão completa de posts educacionais, professores e alunos. Professores possuem acesso administrativo completo, enquanto alunos podem visualizar posts e gerenciar seu perfil.
 
-## 📱 Funcionalidades
+### Tecnologias Principais
 
-### Páginas Públicas (Sem necessidade de login)
+- **React Native** + **Expo** - Framework mobile multiplataforma
+- **TypeScript** - Tipagem estática
+- **Expo Router** - Navegação file-based
+- **Context API** - Gerenciamento de estado
+- **Axios** - Cliente HTTP
+- **AsyncStorage** - Persistência local
 
-- **Lista de Posts**: Visualização de todos os posts com busca por palavras-chave
-- **Leitura de Post**: Visualização completa de um post específico
+## 🏗️ Arquitetura
 
-### Páginas de Autenticação
+### Estrutura em Camadas
 
-- **Login**: Autenticação de professores e alunos
+```mermaid
+graph TB
+    A[Presentation Layer<br/>React Components] --> B[Business Logic<br/>Contexts & Hooks]
+    B --> C[Data Access<br/>Services & API]
+    C --> D[Backend API<br/>REST Endpoints]
+```
 
-### Páginas Administrativas (Apenas Professores)
+### Diagrama de Classes
 
-#### Gestão de Posts
+```mermaid
+classDiagram
+    class AuthContext {
+        +User user
+        +boolean isAuthenticated
+        +login(email, password)
+        +logout()
+    }
 
-- Criação de novos posts
-- Edição de posts existentes
-- Exclusão de posts
-- Página administrativa com visão geral
+    class DataContext {
+        +Post[] posts
+        +Professor[] professors
+        +Student[] students
+        +createPost()
+        +updatePost()
+        +deletePost()
+        +createProfessor()
+        +updateProfessor()
+        +deleteProfessor()
+        +createStudent()
+        +updateStudent()
+        +deleteStudent()
+    }
 
-#### Gestão de Professores
+    class Post {
+        +string id
+        +string title
+        +string content
+        +string author
+        +string createdAt
+    }
 
-- Listagem de professores
-- Cadastro de novos professores
-- Edição de dados de professores
-- Exclusão de professores
+    class Professor {
+        +string id
+        +string name
+        +string email
+        +string subject
+        +string cpf
+        +string matricula
+    }
 
-#### Gestão de Alunos
+    class Student {
+        +string id
+        +string name
+        +string email
+        +string course
+        +string cpf
+        +string matricula
+    }
 
-- Listagem de alunos
-- Cadastro de novos alunos
-- Edição de dados de alunos
-- Exclusão de alunos
+    DataContext --> Post
+    DataContext --> Professor
+    DataContext --> Student
+```
 
 ## 📁 Estrutura do Projeto
 
 ```
-techchallenger-portal-aluno-mobile/
-├── app/                          # Rotas e telas do aplicativo
-│   ├── _layout.tsx              # Layout principal com Drawer
-│   ├── index.tsx                # Página inicial (lista de posts)
-│   ├── login.tsx                # Tela de login
-│   ├── admin.tsx                # Página administrativa
-│   ├── posts/
-│   │   ├── [id].tsx            # Visualização de post
-│   │   ├── create.tsx          # Criação de post
-│   │   └── edit/
-│   │       └── [id].tsx        # Edição de post
-│   ├── professors/
-│   │   ├── index.tsx           # Listagem de professores
-│   │   ├── create.tsx          # Cadastro de professor
-│   │   └── edit/
-│   │       └── [id].tsx        # Edição de professor
-│   └── students/
-│       ├── index.tsx           # Listagem de alunos
-│       ├── create.tsx          # Cadastro de aluno
-│       └── edit/
-│           └── [id].tsx        # Edição de aluno
-├── context/
-│   └── AuthContext.tsx         # Contexto de autenticação
-├── data/
-│   └── mockData.ts             # Dados mockados para desenvolvimento
-├── types/
-│   └── index.ts                # Tipos TypeScript
-└── assets/
-    └── images/                 # Recursos de imagem
+app/                        # Rotas (file-based)
+├── _layout.tsx            # Layout com Drawer
+├── index.tsx              # Lista de posts
+├── login.tsx              # Autenticação
+├── admin.tsx              # Dashboard
+├── posts/                 # CRUD de Posts
+├── professors/            # CRUD de Professores
+└── students/              # CRUD de Alunos
+
+context/
+├── auth/                  # Autenticação
+│   ├── AuthContext.tsx
+│   └── auth.service.ts
+└── data/                  # Dados
+    ├── DataContext.tsx
+    └── use-cases/
+        ├── posts.service.ts
+        ├── professors.service.ts
+        └── students.service.ts
+
+services/
+└── api.ts                 # Cliente HTTP (Axios)
 ```
 
-## 🎯 Arquitetura
-
-### Navegação
-
-O aplicativo utiliza o Expo Router com Drawer Navigation para facilitar a navegação entre as telas. O menu lateral é dinâmico e exibe opções diferentes dependendo do estado de autenticação e do tipo de usuário (professor ou aluno).
-
-### Autenticação
-
-O sistema de autenticação é gerenciado através do Context API (AuthContext), permitindo que o estado do usuário seja compartilhado em toda a aplicação. Atualmente implementado com dados mockados, está pronto para integração com backend real.
-
-### Gerenciamento de Estado
-
-- **Context API**: Utilizado para gerenciamento global de autenticação
-- **useState**: Gerenciamento de estado local nas telas
-- Dados mockados em `data/mockData.ts` prontos para serem substituídos por chamadas à API
-
-### Estilização
-
-Design minimalista com:
-
-- Paleta de cores clean (branco, azul #007AFF, cinzas)
-- Cards com bordas arredondadas
-- Ícones do Ionicons
-- Layout responsivo
-
-## 🔐 Sistema de Permissões
+## ✨ Funcionalidades
 
 ### Acesso Público
 
-- Visualização de lista de posts
-- Leitura de posts individuais
+- ✅ Visualização de posts educacionais
+- ✅ Busca por palavras-chave
+- ✅ Leitura completa de posts
 
-### Acesso de Alunos (Login necessário)
+### Professores (Autenticados)
 
-- Mesmo acesso que visitantes públicos
-- Acesso ao perfil pessoal
+- ✅ CRUD completo de Posts
+- ✅ CRUD completo de Professores
+- ✅ CRUD completo de Alunos
+- ✅ Dashboard administrativo
 
-### Acesso de Professores (Login necessário)
+### Alunos (Autenticados)
 
-- Todos os acessos de alunos
-- Criação, edição e exclusão de posts
-- Gerenciamento completo de professores
-- Gerenciamento completo de alunos
-- Acesso à página administrativa
+- ✅ Visualização de posts
+- ✅ Acesso ao perfil
 
-## 📋 Setup Inicial
+## 🔐 Fluxo de Autenticação
 
-### Pré-requisitos
+```mermaid
+sequenceDiagram
+    participant U as Usuário
+    participant A as App
+    participant API as Backend
+    participant S as AsyncStorage
 
-- Node.js (versão 18 ou superior)
-- npm ou yarn
-- Expo CLI
-- Expo Go app (para testar em dispositivo físico)
-
-### Instalação
-
-1. Clone o repositório:
-
-```bash
-git clone <url-do-repositorio>
-cd techchallenger-portal-aluno-mobile
+    U->>A: Login (email/senha)
+    A->>API: POST /api/auth/login
+    API-->>A: Token JWT + User
+    A->>S: Salva token
+    A-->>U: Redireciona
 ```
 
-2. Instale as dependências:
+### Estrutura de Permissões
+
+```mermaid
+graph TB
+    A[Usuário] --> B{Autenticado?}
+    B -->|Não| C[Visitante<br/>Ver Posts]
+    B -->|Sim| D{Role?}
+    D -->|student| E[Aluno<br/>Ver Posts + Perfil]
+    D -->|professor| F[Professor<br/>Acesso Admin Completo]
+```
+
+## 🌐 Integração com API
+
+### Endpoints Implementados
+
+```
+AUTH:
+POST /api/auth/login              → Autenticação
+
+POSTS:
+GET    /api/posts                 → Listar
+POST   /api/posts                 → Criar
+PATCH  /api/posts/:id             → Atualizar
+DELETE /api/posts/:id             → Remover
+
+PROFESSORES:
+GET    /api/teachers              → Listar
+POST   /api/teachers              → Criar
+PATCH  /api/teachers/:id          → Atualizar
+DELETE /api/teachers/:id          → Remover
+
+ALUNOS:
+GET    /api/students              → Listar
+POST   /api/students              → Criar
+PATCH  /api/students/:id          → Atualizar
+DELETE /api/students/:id          → Remover
+```
+
+### Ciclo de Requisição
+
+```mermaid
+sequenceDiagram
+    participant C as Component
+    participant DC as DataContext
+    participant S as Service
+    participant API as Axios
+    participant B as Backend
+
+    C->>DC: createPost(data)
+    DC->>S: createPostService(data)
+    S->>API: POST /api/posts + Token
+    API->>B: HTTP Request
+    B-->>API: Response
+    API->>S: Data
+    S->>DC: Post criado
+    DC-->>C: UI atualizada
+```
+
+## 🛠️ Instalação
+
+### 1. Instalar Dependências
 
 ```bash
 npm install
 ```
 
-3. Inicie o servidor de desenvolvimento:
+### 2. Configurar API
+
+Edite `services/api.ts`:
+
+```typescript
+const API_BASE_URL = `http://SEU_IP:3333`;
+```
+
+**Descobrir IP:**
+
+```bash
+# Linux
+ip addr show | grep "inet " | grep -v 127.0.0.1
+```
+
+### 3. Iniciar
 
 ```bash
 npm start
 ```
 
-4. Escaneie o QR code com o Expo Go (Android) ou com a câmera (iOS)
+Escaneie o QR Code com Expo Go (celular e PC na mesma rede Wi-Fi).
 
-### Comandos Disponíveis
+## 🔒 Segurança
 
-```bash
-npm start          # Inicia o servidor de desenvolvimento
-npm run android    # Inicia no emulador Android
-npm run ios        # Inicia no simulador iOS
-npm run web        # Inicia versão web
-npm run lint       # Executa o linter
-```
+- ✅ Token JWT em todas as requisições
+- ✅ Persistência segura (AsyncStorage)
+- ✅ Logout automático em token inválido (401)
+- ✅ Controle de acesso por role
+- ✅ Timeout de 10s nas requisições
+- ✅ Validação client-side
 
-## 🧪 Testando o App
+## � Desafios e Experiências de Desenvolvimento
 
-### Credenciais de Login (Mock)
+### Desafios Enfrentados
 
-**Professor:**
+#### 1. Integração entre Mobile e Backend
 
-- Email: professor@escola.com (ou qualquer email contendo "professor")
-- Senha: qualquer senha
+**Desafio:** Comunicação entre dispositivo móvel e servidor local em redes diferentes.
 
-**Aluno:**
+**Solução:** Configuração do Axios com IP local da máquina e orientação para uso na mesma rede Wi-Fi. Implementação de timeout e tratamento de erros de conexão para melhor feedback ao usuário.
 
-- Email: aluno@escola.com (ou qualquer email que não contenha "professor")
-- Senha: qualquer senha
+#### 2. Gerenciamento de Estado Global
 
-## 🔄 Próximos Passos (Integração com Backend)
+**Desafio:** Sincronização de dados entre múltiplas telas e manutenção da consistência do estado.
 
-Para conectar o aplicativo ao backend real, será necessário:
+**Solução:** Implementação de Context API com providers separados (Auth e Data), permitindo isolamento de responsabilidades e reutilização através de custom hooks.
 
-1. **Configurar variáveis de ambiente**
+#### 3. Mapeamento de Dados da API
 
-```typescript
-// .env
-API_URL=https://sua-api.com/api
-```
+**Desafio:** Backend retorna estruturas de dados diferentes do esperado pelo frontend (ex: `_id` vs `id`, campos ausentes).
 
-2. **Criar serviço de API**
+**Solução:** Criação de camada de serviços com funções de mapeamento (`mapPostFromAPI`, `mapPostToAPI`) que normalizam os dados em ambas as direções.
 
-```typescript
-// services/api.ts
-import axios from "axios";
+#### 4. Autenticação Persistente
 
-const api = axios.create({
-  baseURL: process.env.API_URL,
-});
+**Desafio:** Manter usuário logado entre sessões sem comprometer segurança.
 
-export default api;
-```
+**Solução:** Uso de AsyncStorage para token JWT com carregamento automático na inicialização do app e interceptors do Axios para renovação automática em cada requisição.
 
-3. **Atualizar AuthContext** para fazer chamadas reais à API de autenticação
+#### 5. Navegação File-based
 
-4. **Substituir dados mockados** por chamadas à API:
+**Desafio:** Migração do conceito tradicional de rotas para o modelo file-based do Expo Router.
 
-   - GET /posts - Lista de posts
-   - GET /posts/:id - Detalhes do post
-   - POST /posts - Criar post
-   - PUT /posts/:id - Atualizar post
-   - DELETE /posts/:id - Excluir post
-   - Similar para professores e alunos
+**Solução:** Estudo da documentação do Expo Router v6 e organização da estrutura de pastas seguindo convenções (parâmetros dinâmicos com `[id].tsx`, layouts com `_layout.tsx`).
 
-5. **Implementar tratamento de erros** e loading states
+### Aprendizados Principais
 
-6. **Adicionar AsyncStorage** para persistir token de autenticação
+- **TypeScript**: Tipagem estática preveniu diversos bugs em tempo de desenvolvimento
+- **Context API**: Pattern eficiente para estado global em apps de médio porte
+- **Expo**: Facilita drasticamente o desenvolvimento mobile sem necessidade de Android Studio/Xcode
+- **Service Layer**: Separação entre lógica de negócio e acesso a dados melhora manutenibilidade
+- **Async/Await**: Código mais legível para operações assíncronas comparado a Promises
 
-## 🎨 Design e UX
+### Boas Práticas Adotadas
 
-- Interface minimalista e limpa
-- Feedback visual para todas as ações (Alerts)
-- Confirmações para ações destrutivas (exclusões)
-- Navegação intuitiva através do menu lateral
-- Busca em tempo real na lista de posts
-- Botões flutuantes para ações principais
+- Separação de responsabilidades (apresentação, lógica, dados)
+- Nomenclatura consistente de arquivos e variáveis
+- Tratamento de erros em todas as operações assíncronas
+- Loading states para feedback visual
+- Validação de formulários antes do envio
+- Confirmação para ações destrutivas (exclusões)
 
-## 📝 Observações
+## �📊 Conclusão
 
-- Todos os dados são mockados para demonstração
-- A validação de permissões está implementada no front-end, mas deve ser reforçada no backend
-- As rotas estão protegidas baseadas no estado de autenticação e role do usuário
-- O design é responsivo e funciona em diferentes tamanhos de tela
+O Portal do Aluno é uma solução mobile completa para gestão educacional, implementando:
 
-## 👥 Desenvolvimento
+- Arquitetura escalável baseada em Context API
+- Integração REST com backend Node.js
+- Sistema robusto de autenticação JWT
+- Controle de permissões por role (professor/aluno)
+- Interface responsiva e intuitiva
+- Código TypeScript totalmente tipado
 
-Este projeto foi desenvolvido como parte do Tech Challenge da Fase 04, focando em criar uma interface mobile completa e funcional para o sistema de blogging educacional.
+A aplicação demonstra domínio de conceitos essenciais de desenvolvimento mobile moderno, incluindo gerenciamento de estado global, navegação file-based, persistência de dados e integração com APIs REST.
 
-## 📄 Licença
+---
 
-Este projeto é parte de um trabalho acadêmico.
+**Tech Challenge - Fase 04** | Desenvolvido com React Native & Expo

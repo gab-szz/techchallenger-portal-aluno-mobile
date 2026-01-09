@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useData } from "../../context/DataContext";
+import { useData } from "../../context/data";
 
 export default function PostDetail() {
   const { id } = useLocalSearchParams();

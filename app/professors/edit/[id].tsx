@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../../context/data";
 
 export default function EditProfessor() {
   const router = useRouter();
@@ -36,7 +36,7 @@ export default function EditProfessor() {
       Alert.alert("Sucesso", "Professor atualizado com sucesso!", [
         {
           text: "OK",
-          onPress: () => router.replace("/professors/index" as any),
+          onPress: () => router.replace("/professors" as any),
         },
       ]);
     } catch {

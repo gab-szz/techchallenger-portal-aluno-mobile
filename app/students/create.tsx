@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useData } from "../../context/DataContext";
+import { useData } from "../../context/data";
 
 export default function CreateStudent() {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function CreateStudent() {
         senha: password,
       });
       Alert.alert("Sucesso", "Aluno cadastrado com sucesso!", [
-        { text: "OK", onPress: () => router.replace("/students/index" as any) },
+        { text: "OK", onPress: () => router.replace("/students" as any) },
       ]);
     } catch {
       Alert.alert("Erro", "Não foi possível cadastrar o aluno.");

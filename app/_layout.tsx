@@ -1,7 +1,7 @@
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { AuthProvider, useAuth } from "../context/AuthContext";
-import { DataProvider } from "../context/DataContext";
+import { AuthProvider, useAuth } from "../context/auth";
+import { DataProvider } from "../context/data";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";

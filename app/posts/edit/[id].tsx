@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../../context/data";
 
 export default function EditPost() {
   const router = useRouter();
